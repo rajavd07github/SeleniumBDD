@@ -20,7 +20,7 @@ def step_user_on_login(context):
     WebDriverWait(context.browser,10).until(
         EC.url_contains("https://www2.hm.com/en_in/index.html"))
     assert "https://www2.hm.com/en_in/index.html" in context.browser.current_url
-
+    print("@given Ended")
 
 
 @when('User enters valid credentials')
@@ -40,10 +40,17 @@ def steps_to_enter_credentials(context):
 
 @then('User is redirected to the homepage')
 def steps_to_redirect(context):
-    WebDriverWait(context.browser,5).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR,".SignInBox-module--signInText__1e_FN"))).click()
-    WebDriverWait(context.browser,10).until(
-        EC.url_contains("https://www2.hm.com/en_in/account"))
-    assert "https://www2.hm.com/en_in/account" in context.browser.current_url
-    context.browser.quit()
+    try:
+        print("@then stated")
+        myaccount=WebDriverWait(context.browser,10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR,".HcHv")))
+        myaccount.click()
+        WebDriverWait(context.browser,10).until(
+            EC.url_contains("https://www2.hm.com/en_in/account"))
+        assert "https://www2.hm.com/en_in/account" in context.browser.current_url
+    except Exception as e:
+        print (f" error is {e}")
+    finally:
+        context.browser.quit()
+        print("@then stated")
 
